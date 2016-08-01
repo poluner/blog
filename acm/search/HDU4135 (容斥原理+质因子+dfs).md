@@ -28,7 +28,7 @@
 总结了就是奇数个数加，偶数个数减
 第四步：用dfs实现，质因子相互组合符合k个数的排列组合（k=1、2、3……），对于每个k用dfs扫一遍
 
-[那么如何快速求整数N的所有质因子呢？](http://blog.csdn.net/daniel_csdn/article/details/49450081) 
+[那么如何快速求整数N的所有质因子呢？](https://github.com/poluner/blog/blob/master/acm/number-theory/%E6%B1%82%E4%B8%80%E4%B8%AA%E6%95%B4%E6%95%B0%E7%9A%84%E8%B4%A8%E5%9B%A0%E6%95%B0.cpp) 
 
 ```
 #include<cstdio>
