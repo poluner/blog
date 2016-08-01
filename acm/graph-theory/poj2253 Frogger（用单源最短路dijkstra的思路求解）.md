@@ -1,6 +1,6 @@
 [题意：在平面坐标的第一象限给出n（2<=n<=200）个点的坐标，一只青蛙要从起点出发跳到终点（途中可以经过任意点），青蛙的落脚点只能在给出的n个点中，问青蛙的跳跃能力最少是多长？](http://poj.org/problem?id=2253)
 
-分析过程和[dijkstra](http://blog.csdn.net/daniel_csdn/article/details/51820130)的过程几乎一摸一样，设d[i]表示从起点到i的所需最短距离，w[i][j]表示点i和j的欧拉距离。
+分析过程和[dijkstra](https://github.com/poluner/blog/blob/master/acm/graph-theory/%E5%8D%95%E6%BA%90%E6%9C%80%E7%9F%AD%E8%B7%AF%EF%BC%8C%E8%BF%AA%E6%9D%B0%E6%96%AF%E7%89%B9%E6%8B%89%E7%AE%97%E6%B3%95.md)的过程几乎一摸一样，设d[i]表示从起点到i的所需最短距离，w[i][j]表示点i和j的欧拉距离。
 
 步骤：
  1. 设点i未访问，用所有访问的点j更新d[i]，更新公式为d[i]=min(d[i],max(d[j],w[i][j]))。
