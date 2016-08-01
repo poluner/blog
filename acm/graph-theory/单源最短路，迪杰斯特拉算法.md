@@ -1,0 +1,150 @@
+一个包含n个结点的图，求其他点到源点s的最短距离。
+设d[i]表示结点i到s的最短路径的长度，显然有d[s]=0；
+设vis[i]表示i是否在集合S中，集合S中存放的是已经求得的最短路径的结点。
+算法步骤：
+首先在V-S集合中找到最小的d的下标k，然后将k加入到集合S中（令vis[k]=true），然后更新d值即可（令**d[i]=min(d[i],d[k]+w[k][i])**，其中w[k][i]表示边k-i的权值）
+复杂度O(n^2)
+```
+#include<bits/stdc++.h>
+using namespace std;
+const int maxn=100;
+const int inf=0x3f3f3f3f;
+
+int n;
+int d[maxn+5];
+bool vis[maxn+5];
+int w[maxn+5][maxn+5];
+
+int find(){//在V-S中找到最小的d
+    int mind=inf;
+    int mini=-1;
+    for(int i=1;i<=n;i++)if(vis[i]==false&&d[i]<mind){
+        mind=d[i],mini=i;
+    }
+    return mini;
+}
+
+void update(int cur){//更新V-S中的d
+    for(int i=1;i<=n;i++)if(vis[i]==false){
+        d[i]=min(d[i],d[cur]+w[cur][i]);
+    }
+}
+
+void dijkstra(int cur){//求其他点到源点的最短路
+    memset(vis,false,sizeof(vis));
+    memset(d,inf,sizeof(d)),d[cur]=0;//s到s距离为0，其他到s为inf
+    while((cur=find())!=-1){//如果所有点都被访问则退出，如果图连通则循环n-1次
+        vis[cur]=true;
+        update(cur);
+    }
+}
+
+int main(){
+    memset(w,inf,sizeof(w));
+    int m;
+    cin>>n>>m;//n个点m条边
+    while(m--){
+        int x,y,z;
+        cin>>x>>y>>z;//点x到y的边长为z
+        w[y][x]=w[x][y]=z;//无向图
+    }
+    dijkstra(1);
+    for(int i=1;i<=n;i++){//输出其他点到源点的最短路长度
+        cout<<i<<ends<<d[i]<<endl;
+    }
+}
+
+```
+如果要打印出其他点到源点s的最短路径，可以采用记录父结点的方法，设结点i的父结点为fa[i]（令fa[s]=-1），然后将update函数稍微修改一下：
+
+```
+int fa[maxn+5];
+void update(int cur){//更新V-S中的d
+    for(int i=1;i<=n;i++)if(vis[i]==false&&d[cur]+w[cur][i]<d[i]){
+        d[i]=d[cur]+w[cur][i];
+        fa[i]=cur;
+    }
+}
+
+```
+
+用优先队列“优化”到**O(mlogn)**，m是边的条数，如果m与n^2同阶就比O(n^2)要慢了，不过**很多情况都是m比n^2小**。
+这里和上面一种方法有两点不同：
+
+ 1. **查找最小d的下标用了优先队列。**
+ 2. **更新d的时候，只会更新和cur相邻的点（cur就是最小d的下标）。**
+
+```
+#include<bits/stdc++.h>
+using namespace std;
+const int maxn=1000;
+const int inf=0x3f3f3f3f;
+typedef pair<int,int> PAIR;//first为d，second为其下标
+
+vector<int>nxt[maxn+5];
+int n;
+int d[maxn+5];
+bool vis[maxn+5];
+int w[maxn+5][maxn+5];
+
+priority_queue<PAIR,vector<PAIR>,greater<PAIR> >pq;
+
+void update(int cur){//更新与cur相邻的未访问的点的d
+    for(int i=0;i<nxt[cur].size();i++){
+        int x=nxt[cur][i];
+        if(vis[x]==false){
+            d[x]=min(d[x],d[cur]+w[cur][x]);
+            pq.push(make_pair(d[x],x));//将更新后的d连同下标放入优先队列
+        }
+    }
+}
+
+void dijkstra(int cur){
+    memset(vis,false,sizeof(vis));
+    memset(d,inf,sizeof(d)),d[cur]=0;
+    while(!pq.empty())pq.pop();
+
+    pq.push(make_pair(d[cur],cur));
+    while(!pq.empty()){
+        cur=pq.top().second;//最小的d的下标
+        pq.pop();
+        if(vis[cur])continue;
+        vis[cur]=true;
+        update(cur);
+    }
+}
+
+int main(){
+    int m;
+    cin>>n>>m;
+    memset(w,inf,sizeof(w));
+    for(int i=1;i<=n;i++)nxt[i].clear();
+    while(m--){
+        int x,y,z;
+        cin>>x>>y>>z;
+        w[x][y]=w[y][x]=z;
+        nxt[x].push_back(y);
+        nxt[y].push_back(x);
+    }
+    dijkstra(1);
+    for(int i=1;i<=n;i++){
+        cout<<i<<ends<<d[i]<<endl;
+    }
+}
+
+```
+要打印路径也是稍微修改update
+
+```
+int fa[maxn+5];
+void update(int cur){//更新与cur相邻的未访问的点的d
+    for(int i=0;i<nxt[cur].size();i++){
+        int x=nxt[cur][i];
+        if(vis[x]==false&&d[cur]+w[cur][x]<d[x]){
+            d[x]=d[cur]+w[cur][x];
+            pq.push(make_pair(d[x],x));
+            fa[x]=cur;
+        }
+    }
+}
+```
