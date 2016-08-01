@@ -15,7 +15,7 @@ int main(){
     memset(g,inf,sizeof(g));
 
     for(int i=1;i<=n;i++){
-        int k=lower_bound(g+1,g+n+1,a[i])-g;
+        int k=lower_bound(g+1,g+n+1,a[i])-g;//如果要求最长不降子序列，此处改为upper_bound即可
         g[k]=a[i];
         d[i]=k;
     }
