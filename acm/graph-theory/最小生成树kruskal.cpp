@@ -36,7 +36,6 @@ int kruskal(){//返回最小生成树的边长和
 }
 
 int main(){
-//    freopen("in.txt","r",stdin);
     cin>>n>>m;//n个点m条边
     for(int i=1;i<=m;i++){
         cin>>e[i].u>>e[i].v>>e[i].w;
