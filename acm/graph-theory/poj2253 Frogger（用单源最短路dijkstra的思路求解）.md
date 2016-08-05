@@ -3,10 +3,10 @@
 分析过程和[dijkstra](https://github.com/poluner/blog/blob/master/acm/graph-theory/%E5%8D%95%E6%BA%90%E6%9C%80%E7%9F%AD%E8%B7%AF%EF%BC%8C%E8%BF%AA%E6%9D%B0%E6%96%AF%E7%89%B9%E6%8B%89%E7%AE%97%E6%B3%95.md)的过程几乎一摸一样，设d[i]表示从起点到i的所需最短距离，w[i][j]表示点i和j的欧拉距离。
 
 步骤：
- 1. 设点i未访问，用所有访问的点j更新d[i]，更新公式为d[i]=min(d[i],max(d[j],w[i][j]))。
+ 1. 设点i未访问，用最优的点cur更新d[i]，更新公式为d[i]=min(d[i],max(d[cur],w[i][cur]))。
  2. 在所有未访问的点i中找出最小的d，然后将该点设为访问。
 
-#复杂度O(n^3)的代码：
+复杂度O(n^2)的代码：
 ```
 #include<cstdio>
 #include<cstring>
@@ -33,78 +33,6 @@ int find(){
     int mini=-1;
     double mind=inf;
     for(int i=1;i<=n;i++)if(vis[i]==false){
-        for(int j=1;j<=n;j++)if(vis[j]){
-            d[i]=min(d[i],max(d[j],w[i][j]));
-        }
-        if(d[i]<mind){
-            mind=d[i];
-            mini=i;
-        }
-    }
-    return mini;
-}
-
-void dj(int cur){
-    memset(vis,false,sizeof(vis));
-    fill(d+1,d+1+n,inf),d[cur]=0;
-    while((cur=find())!=-1){
-        vis[cur]=true;
-    }
-}
-
-
-int main(){
-    int T=0;
-    while(scanf("%d",&n),n){
-        for(int i=1;i<=n;i++){
-            scanf("%lf%lf",&p[i].first,&p[i].second);
-            for(int j=1;j<=i;j++){
-                w[i][j]=w[j][i]=dis(p[i],p[j]);
-            }
-        }
-        dj(1);//求出所有点到起点的最小跳跃能力
-        printf("Scenario #%d\n",++T);
-        printf("Frog Distance = %.3f\n\n",d[2]);
-    }
-}
-
-```
-#可以用优先队列优化到O(n^2logn)：
-
- 1. 设点i未访问，点j已访问，对所有的点j，将max(d[j],w[i][j]) 放到到pq[i]中，每次取出最小的去更新d[i]即可。
- 2. find中更新完d，并且找到最小的d之后，要用它的下标mini去更新所有未访问的点i的pq，更新方程为：pq[i].push(max(d[mini],w[mini][i]))。
-
-
-```
-#include<cstdio>
-#include<cstring>
-#include<cmath>
-#include<iostream>
-#include<algorithm>
-#include<queue>
-using namespace std;
-const double inf=1e9;
-const int maxn=200;
-typedef pair<double,double> PAIR;
-PAIR p[maxn+5];
-
-int n;
-double d[maxn+5];
-double w[maxn+5][maxn+5];
-
-double dis(PAIR &a,PAIR &b){
-    return sqrt((a.first-b.first)*(a.first-b.first)+(a.second-b.second)*(a.second-b.second));
-}
-
-priority_queue<double,vector<double>,greater<double> >pq[maxn+5];
-
-bool vis[maxn+5];
-
-int find(){
-    int mini=-1;
-    double mind=inf;
-    for(int i=1;i<=n;i++)if(vis[i]==false){
-        d[i]=min(d[i],pq[i].top());
         if(d[i]<mind){
             mind=d[i];
             mini=i;
@@ -114,31 +42,20 @@ int find(){
 }
 
 void update(int cur){
-    for(int i=1;i<=n;i++)if(vis[i]==false){
-        pq[i].push(max(d[cur],w[cur][i]));
-    }
-}
-
-void initpq(){
-    for(int i=1;i<=n;i++){
-        while(!pq[i].empty())pq[i].pop();
-        for(int j=1;j<=n;j++){
-            pq[i].push(max(d[j],w[i][j]));
-        }
+    for(int i=1;i<=n;i++)if(vis[i]==false){//用最优点cur去更新未访问的点
+        d[i]=min(d[i],max(d[cur],w[i][cur]));
     }
 }
 
 void dj(int cur){
     memset(vis,false,sizeof(vis));
-    fill(d+1,d+1+n,inf),d[cur]=0;
-    initpq();
+    fill(d+1,d+1+n,inf);
+    d[cur]=0;
     while((cur=find())!=-1){
         vis[cur]=true;
-       //这里不需要加pq[cur].pop()，因为cur标记为访问之后，find中的i不会是cur了
         update(cur);
     }
 }
-
 
 int main(){
     int T=0;
@@ -154,5 +71,6 @@ int main(){
         printf("Frog Distance = %.3f\n\n",d[2]);
     }
 }
+
 
 ```
