@@ -6,7 +6,7 @@
 ```
 template<typename T>//使用模板，这样待计算的点可以放在数组也可以放在vector中
 
-void convexHull(T *first,T *last,vector<point>&v){//凸包模板
+void convexHull(T first,T last,vector<point>&v){//凸包模板
     vector<point>p(first,last);
     sort(p.begin(),p.end());//排序
     p.resize(unique(p.begin(),p.end())-p.begin());//去重
