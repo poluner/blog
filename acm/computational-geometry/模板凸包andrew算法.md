@@ -12,14 +12,14 @@ void convexHull(T *first,T *last,vector<point>&v){//凸包模板
     p.resize(unique(p.begin(),p.end())-p.begin());//去重
 
     for(int i=0;i<p.size();i++){//其实p[0]不必计算，直接加入凸包即可，这里统一在了一起
-        while(v.size()>=2&&(v.back()-v[v.size()-2]).cross(p[i]-v.back())<0)v.pop_back();
+        while(v.size()>=2&&(v.back()-v[v.size()-2]).cross(p[i]-v.back())<=0)v.pop_back();
         v.push_back(p[i]);
     }
 
     int k=v.size();
 
     for(int i=p.size()-2;i>=0;i--){//凸包首次加的点(这里是p[n-1])不必计算，其他点(包括p[0])都要计算
-        while(v.size()>=k+1&&(v.back()-v[v.size()-2]).cross(p[i]-v.back())<0)v.pop_back();
+        while(v.size()>=k+1&&(v.back()-v[v.size()-2]).cross(p[i]-v.back())<=0)v.pop_back();
         v.push_back(p[i]);
     }
     v.pop_back();//点p[0]加了2遍，所以要去掉
