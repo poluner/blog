@@ -79,3 +79,9 @@ int main(){
     }
 }
 ```
+[借用某大神的图来直观描述这个过程：](http://www.cnblogs.com/Booble/archive/2011/03/10/1980089.html)  
+![](http://pic002.cnblogs.com/images/2011/139826/2011031018085630.png)  
+
+![](http://pic002.cnblogs.com/images/2011/139826/2011031018193031.png)  
+
+![](http://pic002.cnblogs.com/images/2011/139826/2011031018230049.png)
