@@ -85,3 +85,52 @@ int main(){
 ![](http://pic002.cnblogs.com/images/2011/139826/2011031018193031.png)  
 
 ![](http://pic002.cnblogs.com/images/2011/139826/2011031018230049.png)
+
+[uva10652包装木板](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1593)  
+题意：有n个矩形木板，需要用一个面积尽量小的凸多边形把它们包起来，求木板占整个包装面积的百分比。  
+分析：将所有点做一遍凸包即可，这里另外给出多边形面积模板：  
+```
+template<typename T>
+double area(T first,T last){
+    double ans=0;
+    for(T i=first+1;i+1<last;i++){
+        ans+=(*i-*first).cross(*(i+1)-*first);
+    }
+    return ans/2;
+}
+```
+主程序如下：
+```
+const double pi=atan2(0,-1);
+const int maxn=600*4;
+
+point p[maxn+5];
+
+int main(){
+    int T;
+    scanf("%d",&T);
+    while(T--){
+        double sum=0;
+        int n;
+        scanf("%d",&n);
+        for(int i=1;i<=n*4;i+=4){
+            point o;
+            double w,h,j;
+
+            o.read();
+            scanf("%lf%lf%lf",&w,&h,&j);
+            j=-(j*pi/180);
+
+            p[i]=o+vct{w/2,h/2}.rot(j);
+            p[i+1]=o+vct{w/2,-h/2}.rot(j);
+            p[i+2]=o+vct{-w/2,h/2}.rot(j);
+            p[i+3]=o+vct{-w/2,-h/2}.rot(j);
+
+            sum+=w*h;
+        }
+        vector<point>v;
+        convexHull(p+1,p+1+n*4,v);
+        printf("%.1f %%\n",sum*100/area(v.begin(),v.end()));
+    }
+}
+```
