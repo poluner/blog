@@ -1,9 +1,6 @@
-[题意：海上有一个凸n边形小岛，求出岛上离海最远的点，输出它到海的最远距离](https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1891)  
-凸n边形的点逆时针给出  
-可以二分答案，然后解决一个判定问题：是否有离海距离不小于d的点？对于每条边来说，这些点形成一个半平面，如果
-[半平面交](https://github.com/poluner/blog/blob/master/acm/computational-geometry/%E6%A8%A1%E6%9D%BF%E5%8D%8A%E5%B9%B3%E9%9D%A2%E4%BA%A4nlogn.md)
-非空，就有满足题意的点存在。  
-具体做法是收缩多边形，将所有边向内平移，如果平移后半平面交非空，则继续向内平移。
+[la3890离海最远的点](https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1891)  
+题意：海上有一个凸n边形小岛，求出岛上离海最远的点，输出它到海的最远距离，凸n边形的点逆时针给出  
+分析：可以二分答案，然后解决一个判定问题：是否有离海距离不小于d的点？对于每条边来说，这些点形成一个半平面，如果半平面非空，就有满足题意的点存在，具体做法是收缩多边形，将所有边向内平移，如果平移后半平面交非空，则继续向内平移。
 
 直线的定义中添加平移函数move()：
 ```
