@@ -1,5 +1,6 @@
-[给出平面上10000个点，找一条直线使所有点在直线同侧（也可以在直线上），且到直线的距离之和最小。](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2109)  
-这条直线一定是凸包的一个边，怎么确定是哪条边呢？  
+[uva11168点到直线最短距离和](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2109)  
+题意：给出平面上10000个点，找一条直线使所有点在直线同侧（也可以在直线上），且到直线的距离之和最小。  
+分析：这条直线一定是凸包的一个边，怎么确定是哪条边呢？  
 直线一般方程为：Ax+By+C=0，则点
 <img src="http://chart.apis.google.com/chart?cht=tx&chl=(%20x_%7B0%7D%2C%20y_%7B0%7D)">
 到直线的距离为：  
@@ -17,7 +18,6 @@
 <img src="http://chart.apis.google.com/chart?cht=tx&chl=B%3Dx_%7B2%7D-x_%7B1%7D%0A">  
 <img src="http://chart.apis.google.com/chart?cht=tx&chl=C%3Dx_%7B1%7Dy_%7B2%7D-x_%7B2%7Dy_%7B1%7D%0A">  
 
-[凸包见模板](https://github.com/poluner/blog/blob/master/acm/computational-geometry/%E6%A8%A1%E6%9D%BF%E5%87%B8%E5%8C%85andrew%E7%AE%97%E6%B3%95.md)
 主程序如下：  
 ```
 const double eps=1e-5;
