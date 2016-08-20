@@ -1,7 +1,6 @@
-[给出100 000*4个点，求最远两点的距离](https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2729)  
-直接枚举复杂度为O(n^2)会超时，用O(nlogn)求[凸包的直径](https://github.com/poluner/blog/blob/master/acm/computational-geometry/%E6%A8%A1%E6%9D%BF%E6%97%8B%E8%BD%AC%E5%8D%A1%E5%A3%B3%E6%B1%82%E5%87%B8%E5%8C%85%E7%9B%B4%E5%BE%84.md)
-可以很简单地解决  
-
+[uva4728凸包直径](https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2729)  
+题意：给出100 000*4个点，求最远两点的距离  
+分析：直接枚举复杂度为O(n^2)会超时，所以只能用凸包直径求  
 主程序如下：
 ```
 const double eps=1e-8;
