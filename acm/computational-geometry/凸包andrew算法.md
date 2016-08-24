@@ -5,31 +5,29 @@
 凸包模板如下，特意用了**template< typename T >**模板，目的是使点集容器选择更灵活：  
 ```
 template<typename T>//使用模板，这样待计算的点可以放在数组也可以放在vector中
-
-void convexHull(T first,T last,vector<point>&v){//凸包模板
+vector<point> ch(T first,T last){//凸包模板
     vector<point>p(first,last);
     sort(p.begin(),p.end());//排序
     p.resize(unique(p.begin(),p.end())-p.begin());//去重
 
+    vector<point>v;
     for(int i=0;i<p.size();i++){//其实p[0]不必计算，直接加入凸包即可，这里统一在了一起
         while(v.size()>=2&&(v.back()-v[v.size()-2]).cross(p[i]-v.back())<=0)v.pop_back();
         v.push_back(p[i]);
     }
 
     int k=v.size();
-
     for(int i=p.size()-2;i>=0;i--){//凸包首次加的点(这里是p[n-1])不必计算，其他点(包括p[0])都要计算
         while(v.size()>=k+1&&(v.back()-v[v.size()-2]).cross(p[i]-v.back())<=0)v.pop_back();
         v.push_back(p[i]);
     }
     v.pop_back();//点p[0]加了2遍，所以要去掉
+    return v;
 }
 ```
 point的定义和主函数如下：
 ```
-#include<bits/stdc++.h>
 #define vct point
-using namespace std;
 const double eps=1e-8;
 
 int dcmp(double d){
@@ -39,44 +37,24 @@ int dcmp(double d){
 
 struct point{
     double x,y;
-
-    void read(){
-        cin>>x>>y;
-    }
-    void write(){
-        cout<<x<<ends<<y<<endl;
-    }
-
+    void read(){cin>>x>>y;}
+    void write(){cout<<x<<ends<<y<<endl;}
     bool operator<(const point b)const{//sort排序定义小于
         if(dcmp(x-b.x))return x<b.x;
         return dcmp(y-b.y)<0;
     }
-    bool operator==(const point b)const{//unique判重需要定义等于
-        return dcmp(x-b.x)==0&&dcmp(y-b.y)==0;
-    }
-
-    vct operator-(vct b){
-        return {x-b.x,y-b.y};
-    }
-
-    double cross(vct b){
-        return x*b.y-y*b.x;
-    }
+    bool operator==(const point b)const{return dcmp(x-b.x)==0&&dcmp(y-b.y)==0;}//unique判重需要定义等于
+    vct operator-(vct b){return {x-b.x,y-b.y};}
+    double cross(vct b){return x*b.y-y*b.x;}
 };
 
 int main(){
     point p[100];
-    int n;
-    cin>>n;
+    int n;cin>>n;
+    for(int i=0;i<n;i++)p[i].read();
 
-    for(int i=1;i<=n;i++){
-        p[i].read();
-    }
-    vector<point>v;
-    convexHull(p+1,p+1+n,v);
-    for(int i=0;i<v.size();i++){
-        v[i].write();
-    }
+    vector<point>v=ch(p,p+n);
+    for(int i=0;i<v.size();i++)v[i].write();
 }
 ```
 [借用某大神的图来直观描述这个过程：](http://www.cnblogs.com/Booble/archive/2011/03/10/1980089.html)  
@@ -93,9 +71,7 @@ int main(){
 template<typename T>
 double area(T first,T last){
     double ans=0;
-    for(T i=first+1;i+1<last;i++){
-        ans+=(*i-*first).cross(*(i+1)-*first);
-    }
+    for(T i=first+1;i+1<last;i++)ans+=(*i-*first).cross(*(i+1)-*first);
     return ans/2;
 }
 ```
@@ -107,12 +83,10 @@ const int maxn=600*4;
 point p[maxn+5];
 
 int main(){
-    int T;
-    scanf("%d",&T);
+    int T;scanf("%d",&T);
     while(T--){
         double sum=0;
-        int n;
-        scanf("%d",&n);
+        int n;scanf("%d",&n);
         for(int i=1;i<=n*4;i+=4){
             point o;
             double w,h,j;
@@ -128,8 +102,7 @@ int main(){
 
             sum+=w*h;
         }
-        vector<point>v;
-        convexHull(p+1,p+1+n*4,v);
+        vector<point>v=ch(p+1,p+1+n*4);
         printf("%.1f %%\n",sum*100/area(v.begin(),v.end()));
     }
 }
@@ -164,12 +137,10 @@ const int maxn=10000;
 point p[maxn+5];
 
 int main(){
-    int T;
-    scanf("%d",&T);
+    int T;scanf("%d",&T);
     for(int t=1;t<=T;t++){
         printf("Case #%d: ",t);
-        int n;
-        scanf("%d",&n);
+        int n;scanf("%d",&n);
         double sx=0,sy=0;
         for(int i=1;i<=n;i++){
             p[i].read();
@@ -184,8 +155,7 @@ int main(){
 
         double ans=inf;
 
-        vector<point>v;
-        convexHull(p+1,p+1+n,v);
+        vector<point>v=ch(p+1,p+1+n);
 
         v.push_back(v.front());//将第一个点加进去，因为第一个点和最后一个点也构成一个直线
         for(int i=1;i<v.size();i++){
