@@ -46,23 +46,15 @@ struct line{
     double ang;
 
     line(){}
-    line(point p,vct v):p(p),v(v){
-        ang=atan2(v.y,v.x);
-    }
+    line(point p,vct v):p(p),v(v){ang=atan2(v.y,v.x);}
 
-    bool operator<(line b)const{//按极角升序
-        return dcmp(ang-b.ang)<0;
-    }
-    bool onleft(point b){//点b在直线左边，在直线上不算，如果允许半平面是条线段则应算上直线上的点，改>为>=
-        return dcmp(v.cross(b-p))>0;
-    }
+    bool operator<(line b)const{return dcmp(ang-b.ang)<0;}//按极角升序
+    bool onleft(point b){return dcmp(v.cross(b-p))>0;}//点b在直线左边，在直线上不算，如果允许半平面是条线段则应算上直线上的点，改>为>=
     point intersection(line b){//与直线b的交点
         double t=b.v.cross(p-b.p)/v.cross(b.v);
         return p+v*t;
     }
-    bool parallel(line b){//平行于直线b
-        return dcmp(v.cross(b.v))==0;
-    }
+    bool parallel(line b){return dcmp(v.cross(b.v))==0;}//平行于直线b
 };
 ```
 
@@ -82,9 +74,7 @@ poj上的几个简单的模板题：
 
 直线的定义中添加平移函数move()：
 ```
-line move(double t){//向左平移距离t
-    return {p+v.normal()*t,v};
-}
+line move(double t){return {p+v.normal()*t,v};}//向左平移距离t
 ```
 主程序如下：
 ```
@@ -97,9 +87,7 @@ point p[maxn+5];
 int main(){
     int n;
     while(~scanf("%d",&n)&&n){
-        for(int i=1;i<=n;i++){
-            p[i].read();
-        }
+        for(int i=1;i<=n;i++)p[i].read();
         p[n+1]=p[1];
 
         double left=0,right=20000;
