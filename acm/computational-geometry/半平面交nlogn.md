@@ -31,9 +31,7 @@ vector<point>hpi(T first,T last){
 
     if(q.size()<=2)return vector<point>();//不构成半平面，则返回空集
     vector<point>p;
-    for(deque<line>::iterator i=q.begin();i+1<q.end();i++){
-        p.push_back(i->intersection(*(i+1)));
-    }
+    for(deque<line>::iterator i=q.begin();i+1<q.end();i++)p.push_back(i->intersection(*(i+1)));
     p.push_back(q.front().intersection(q.back()));
     return p;//返回半平面交点
 }
