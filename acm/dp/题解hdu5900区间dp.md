@@ -1,6 +1,13 @@
 [题意：给了n个pair，如果相邻的两个元素的first不互质就可以将这两个元素取出，并且可以累加其second，求最大累加和，取出一对元素后两旁的元素变成相邻](http://acm.hdu.edu.cn/showproblem.php?pid=5900)  
 分析：区间dp，设d(i,j)表示区间[i,j]的所能累加的最大值，那么区间就有两种状态：可以取完和不可全部取完。对于不可取完的情况
 就必须至少将区间分成两半，分别取得最大值然后累加，复杂度<img src="http://latex.codecogs.com/svg.latex?O(n^3)">。  
+数据：
+```
+6
+3 5 5 2 2 3 
+1 1 1 1 1 1
+```
+输出6
 ```
 #include<bits/stdc++.h>
 using namespace std;
