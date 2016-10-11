@@ -2,8 +2,7 @@
 lower_bound 指向 **>=key 的第一个元素**  
 upper_bound 指向 **>key 的第一个元素**  
 
-如同sort一样，可以传入比较函数，但是比较耗时，可能因此tle，有更好的方法：  
-由于误差
+如同sort一样，可以传入比较函数
 
 #升序如果所有元素都小于key，则两者都返回首地址
 因此查询小于key的最大元素下标用upper_bound()-1而不是lower_bound
