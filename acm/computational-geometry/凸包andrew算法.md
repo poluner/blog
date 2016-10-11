@@ -2,7 +2,6 @@
 从p3开始，当新点在凸包“前进”方向的左边（叉积为正）时继续，**否则（叉积为负或0）依次删除最近加入到凸包的点**，直到新点在左边。  
 从左到右做一次之后得到的是“下凸包”，然后从右向左做一次得到“上凸包”，合起来就是完整的凸包。复杂度O(nlogn)。  
 
-凸包模板如下，特意用了**template< typename T >**模板，目的是使点集容器选择更灵活：  
 ```
 template<typename T>//使用模板，这样待计算的点可以放在数组也可以放在vector中
 vector<point> ch(T first,T last){//凸包模板
@@ -111,19 +110,11 @@ int main(){
 [uva11168点到直线最短距离和](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=2109)  
 题意：给出平面上10000个点，找一条直线使所有点在直线同侧（也可以在直线上），且到直线的距离之和最小。  
 分析：这条直线一定是凸包的一个边，怎么确定是哪条边呢？  
-直线一般方程为：Ax+By+C=0，则点
-<img src="http://chart.apis.google.com/chart?cht=tx&chl=(%20x_%7B0%7D%2C%20y_%7B0%7D)">
-到直线的距离为：  
+直线一般方程为：Ax+By+C=0，则点<img src="http://chart.apis.google.com/chart?cht=tx&chl=(%20x_%7B0%7D%2C%20y_%7B0%7D)">到直线的距离为：  
 <img src="http://chart.apis.google.com/chart?cht=tx&chl=%5Cfrac%7B%7CA%20x_%7B0%7D%2BB%20y_%7B0%7D%2BC%7C%7D%7B%20%5Csqrt%7B%20A%5E%7B2%7D%2B%20B%5E%7B2%7D%7D%20%7D%20">  
-由于所有点都在Ax+By+C=0同侧，所以
-<img src="http://chart.apis.google.com/chart?cht=tx&chl=A%20x_%7B0%7D%2BB%20y_%7B0%7D%2BC">
-的正负号相同，这样预处理所有点x坐标和y坐标之和，然后枚举凸包的边即可求出最小距离和。 
+由于所有点都在Ax+By+C=0同侧，所以<img src="http://chart.apis.google.com/chart?cht=tx&chl=A%20x_%7B0%7D%2BB%20y_%7B0%7D%2BC">的正负号相同，这样预处理所有点x坐标和y坐标之和，然后枚举凸包的边即可求出最小距离和。 
 
-两点
-<img src="http://chart.apis.google.com/chart?cht=tx&chl=(x_%7B1%7D%2Cy_%7B1%7D)">
-，
-<img src="http://chart.apis.google.com/chart?cht=tx&chl=(x_%7B2%7D%2Cy_%7B2%7D)">
-所在的直线  
+两点<img src="http://chart.apis.google.com/chart?cht=tx&chl=(x_%7B1%7D%2Cy_%7B1%7D)">，<img src="http://chart.apis.google.com/chart?cht=tx&chl=(x_%7B2%7D%2Cy_%7B2%7D)">所在的直线  
 <img src="http://chart.apis.google.com/chart?cht=tx&chl=A%3Dy_%7B1%7D-y_%7B2%7D%0A">  
 <img src="http://chart.apis.google.com/chart?cht=tx&chl=B%3Dx_%7B2%7D-x_%7B1%7D%0A">  
 <img src="http://chart.apis.google.com/chart?cht=tx&chl=C%3Dx_%7B1%7Dy_%7B2%7D-x_%7B2%7Dy_%7B1%7D%0A">  
