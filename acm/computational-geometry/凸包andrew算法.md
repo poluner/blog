@@ -8,7 +8,8 @@ vector<point> ch(T first,T last){//凸包模板
     vector<point>p(first,last);
     sort(p.begin(),p.end());//排序
     p.resize(unique(p.begin(),p.end())-p.begin());//去重
-
+    if(p.size()<3)return p;//不是多边形就返回点集
+    
     vector<point>v;
     for(int i=0;i<p.size();i++){//其实p[0]不必计算，直接加入凸包即可，这里统一在了一起
         while(v.size()>=2&&(v.back()-v[v.size()-2]).cross(p[i]-v.back())<=0)v.pop_back();
