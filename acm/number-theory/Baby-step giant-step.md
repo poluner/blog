@@ -37,18 +37,6 @@ LL pow(LL a,LL n,LL p){
     if(n==0)return 1;
     if(n&1)return a*pow(a,n-1,p)%p;
     LL t=pow(a,n>>1,p);
-#include<cstdio>
-#include<map>
-#include<cmath>
-#include<cstring>
-#include<algorithm>
-using namespace std;
-typedef long long LL;
-
-LL pow(LL a,LL n,LL p){
-    if(n==0)return 1;
-    if(n&1)return a*pow(a,n-1,p)%p;
-    LL t=pow(a,n>>1,p);
     return t*t%p;
 }
 
