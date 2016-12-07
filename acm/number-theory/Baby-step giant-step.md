@@ -87,6 +87,14 @@ int bsgs(int c,int a,int b,int p){//方程c*a^x=b(mod p)求x，其中a和p互质
 }
 
 int bsgs(int a,int b,int p){//求a^x=b(mod p)不要求a和p互质
+
+    int maxx=log(p)/log(2);
+    LL e=1;
+    for(int i=0;i<=maxx;i++){
+        if(e==b)return i;
+        e=e*a%p;
+    }
+    
     LL c=1;
     int cnt=0;
     int g;
