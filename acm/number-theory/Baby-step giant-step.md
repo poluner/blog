@@ -68,7 +68,7 @@ int bsgs(int c,int a,int b,int p){//方程c*a^x=b(mod p)求x，其中a和p互质
     memset(val,-1,sizeof val);
 
     int m=ceil(sqrt((double)p));
-    LL e=c%p;//幂
+    LL e=c;//幂
     for(int j=0;j<m;j++){
         int id=find(e);
         if(val[id]==-1)val[id]=e,key[id]=j;
