@@ -1,4 +1,5 @@
-[见Wikipedia对Baby-step giant-step的解释](https://en.wikipedia.org/wiki/Baby-step_giant-step)
+[见Wikipedia对Baby-step giant-step的解释](https://en.wikipedia.org/wiki/Baby-step_giant-step)  
+[这篇讲的不错](http://blog.csdn.net/acm_cxlove/article/details/7832197)  
 
 关于x的方程<img src="http://latex.codecogs.com/svg.latex?a^x\%n=b">，求最小的x.  
 设<img src="http://latex.codecogs.com/svg.latex?m=\left%20\lceil%20\sqrt{n}%20\right%20\rceil">  
@@ -20,9 +21,9 @@
 
 <img src="http://latex.codecogs.com/svg.latex?\frac{a}{g}*a^{x-1}\%(\frac{n}{g})=\frac{b}{g}">  
 
-循环除掉gcd直到a与n互质，将a的幂前面的系数以及除的次数保存下来，接下来就按照情况一解出x
-
-##[poj3243情况二](http://poj.org/problem?id=3243)  
+循环除掉gcd直到a与n互质，将a的幂前面的系数以及除的次数保存下来，接下来就按照情况一解出x  
+#注意这里有bug，按照<img src="http://latex.codecogs.com/svg.latex?c*a^x\%n=b">解出的x必定大于系数c，但是对于原式来说x是可以小于系数的，考虑到消因子的时候最小除2，所以max(x)=logn，因此先看[0,logn]中是否有满足的x  
+##[poj3243情况二](http://poj.org/problem?id=3243)  
 哈希表比map快了太多。。。。
 ```
 #include<cstdio>
