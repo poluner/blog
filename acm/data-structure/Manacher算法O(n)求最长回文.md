@@ -44,3 +44,48 @@ int main(){
     cout<<manacher(s);
 }
 ```
+更新：
+```
+#include<bits/stdc++.h>
+using namespace std;
+
+const int maxn=1e5;
+int p[maxn+5];
+
+string lps(const string& s){
+
+    memset(p,0,sizeof p);
+    int id=0;
+    int n=s.size();
+    for(int i=0;i<n;i++){
+        if(i<p[id]+id)p[i]=min(p[2*id-i],p[id]+id-i);
+        else p[i]=1;
+        while(i+p[i]<n&&i-p[i]>=0&&s[i+p[i]]==s[i-p[i]])p[i]++;
+        if(p[i]>p[id])id=i;
+    }
+
+    for(int i=0;i<n;i++){
+        cout<<p[i]<<ends;
+    }
+    puts("");
+    cout<<id<<ends<<p[id]<<endl;
+    string ans;
+    for(int i=id-p[id]+1;i<=id+p[id]-1;i++){
+        if(s[i]!='#')ans=ans+s[i];
+    }
+    return ans;
+
+}
+
+int main(){
+    string ts="cabab";
+    string s="#";
+    for(int i=0;i<ts.size();i++){
+        s=s+ts[i]+"#";
+    }
+    for(int i=0;i<s.size();i++)cout<<s[i]<<ends;
+    puts("");
+    string ans=lps(s);
+    cout<<ans<<endl;
+}
+```
